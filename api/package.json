@@ -1,8 +1,9 @@
 {
-  "name": "api-manual",
-  "private": true,
+  "name": "strapi-gatsby-blog-api",
+  "private": false,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "",
+  "license": "MIT",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
@@ -11,17 +12,18 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "knex": "<0.20.0",
+    "sqlite3": "latest",
     "strapi": "3.2.5",
     "strapi-admin": "3.2.5",
-    "strapi-utils": "3.2.5",
-    "strapi-plugin-content-type-builder": "3.2.5",
-    "strapi-plugin-content-manager": "3.2.5",
-    "strapi-plugin-users-permissions": "3.2.5",
-    "strapi-plugin-email": "3.2.5",
-    "strapi-plugin-upload": "3.2.5",
     "strapi-connector-bookshelf": "3.2.5",
-    "knex": "<0.20.0",
-    "sqlite3": "latest"
+    "strapi-plugin-content-manager": "3.2.5",
+    "strapi-plugin-content-type-builder": "3.2.5",
+    "strapi-plugin-email": "3.2.5",
+    "strapi-plugin-graphql": "3.2.5",
+    "strapi-plugin-upload": "3.2.5",
+    "strapi-plugin-users-permissions": "3.2.5",
+    "strapi-utils": "3.2.5"
   },
   "author": {
     "name": "A Strapi developer"
@@ -32,6 +34,5 @@
   "engines": {
     "node": ">=10.0.0",
     "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+  }
 }
