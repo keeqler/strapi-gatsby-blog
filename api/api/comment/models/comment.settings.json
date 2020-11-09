@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "posts",
+  "collectionName": "comments",
   "info": {
-    "name": "Post",
+    "name": "comment",
     "description": ""
   },
   "options": {
@@ -11,17 +11,17 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "title": {
+    "author": {
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "richtext",
+    "comment": {
+      "type": "text",
       "required": true
     },
-    "comments": {
-      "via": "postId",
-      "collection": "comment"
+    "postId": {
+      "model": "post",
+      "via": "comments"
     }
   }
 }
