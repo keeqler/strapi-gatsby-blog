@@ -29,7 +29,7 @@
       "path": "/comments",
       "handler": "comment.create",
       "config": {
-        "policies": []
+        "policies": ["require-post-field"]
       }
     },
     {
