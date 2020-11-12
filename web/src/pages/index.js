@@ -19,6 +19,7 @@ const Home = () => {
       }
     }
   `);
+
   const posts = data.blog.posts;
 
   return (

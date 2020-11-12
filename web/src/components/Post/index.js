@@ -6,19 +6,15 @@ import { formatRelative } from 'date-fns';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 
+import generatePostUrl from '../../generatePostUrl';
 import './styles.scss';
 
-export default ({
-  post,
-  hideFullPostLink = false,
-  fetchComments = false,
-  fullPostPageVariant = false
-}) => {
+export default ({ post, isFullPostVariant = false }) => {
   const [comments, setComments] = useState([]);
 
   // fetch post comments
   useEffect(() => {
-    if (!fetchComments) return;
+    if (!isFullPostVariant) return;
 
     (async () => {
       const response = await axios.post('http://localhost:1337/graphql', {
@@ -92,14 +88,16 @@ export default ({
 
         <span className="post-content">{post.content}</span>
 
-        {/* TODO: use friendly names instead of id? */}
-        {!hideFullPostLink && (
-          <Link className="post-full-post-link" to={`/${post.id}`}>
+        {!isFullPostVariant && (
+          <Link
+            className="post-full-post-link"
+            to={generatePostUrl(post.title, new Date(post.published_at))}
+          >
             Read the full post →
           </Link>
         )}
 
-        {fetchComments && (
+        {isFullPostVariant && (
           <>
             <form className="comment-form" onSubmit={handleSubmit}>
               <h3>Add a new comment</h3>

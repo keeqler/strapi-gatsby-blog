@@ -1,4 +1,5 @@
 const path = require(`path`);
+const generatePostUrl = require('./src/generatePostUrl');
 
 exports.createPages = ({ graphql, actions }) =>
   new Promise(async (resolve, reject) => {
@@ -7,6 +8,8 @@ exports.createPages = ({ graphql, actions }) =>
         blog {
           posts {
             id
+            title
+            published_at
           }
         }
       }
@@ -18,7 +21,7 @@ exports.createPages = ({ graphql, actions }) =>
 
     result.data.blog.posts.forEach(post =>
       actions.createPage({
-        path: `/${post.id}`,
+        path: generatePostUrl(post.title, new Date(post.published_at)),
         component: path.resolve('./src/templates/Post.js'),
         context: { id: post.id }
       })

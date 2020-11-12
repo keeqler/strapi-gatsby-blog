@@ -12,7 +12,7 @@ const PostTemplate = ({ data }) => {
       <Helmet>
         <title>{post.title} - A Simple Blog</title>
       </Helmet>
-      <Post post={post} hideFullPostLink fetchComments />
+      <Post post={post} isFullPostVariant />
     </>
   );
 };
