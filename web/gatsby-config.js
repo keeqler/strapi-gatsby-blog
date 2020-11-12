@@ -1,8 +1,4 @@
-/**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.com/docs/gatsby-config/
- */
+require('dotenv').config();
 
 module.exports = {
   plugins: [
@@ -13,7 +9,7 @@ module.exports = {
       options: {
         typeName: `Blog`,
         fieldName: `blog`,
-        url: `http://localhost:1337/graphql`
+        url: process.env.GATSBY_GRAPHQL_API_URL
       }
     }
   ],

@@ -4,35 +4,41 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import { formatRelative } from 'date-fns';
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
 
+import api from '../../services/api';
 import generatePostUrl from '../../generatePostUrl';
 import './styles.scss';
 
+console.log(api);
+
 export default ({ post, isFullPostVariant = false }) => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(null);
 
   // fetch post comments
   useEffect(() => {
     if (!isFullPostVariant) return;
 
     (async () => {
-      const response = await axios.post('http://localhost:1337/graphql', {
-        query: `
-          query {
-            post(id: ${post.id}) {
-              comments(sort: "id:desc") {
-                id
-                author
-                comment
-                published_at
+      try {
+        const response = await api.post('', {
+          query: `
+            query {
+              post(id: ${post.id}) {
+                comments(sort: "id:desc") {
+                  id
+                  author
+                  comment
+                  published_at
+                }
               }
             }
-          }
-        `
-      });
+          `
+        });
 
-      setComments(response.data.data.post.comments);
+        setComments(response.data.data.post.comments);
+      } catch {
+        toast.error('Sorry, something went wrong when loading comments 🙁');
+      }
     })();
   }, []);
 
@@ -47,7 +53,7 @@ export default ({ post, isFullPostVariant = false }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:1337/graphql', {
+      const response = await api.post('', {
         query: `
           mutation CreateComment($author: String!, $comment: String!, $postId: ID!) {
             createComment(input: { data: { author: $author, comment: $comment, post: $postId } }) {
@@ -112,17 +118,20 @@ export default ({ post, isFullPostVariant = false }) => {
               <button type="submit">Post</button>
             </form>
 
-            {comments.map(comment => (
-              <div key={comment.id} className="comment">
-                <span className="comment-author">{comment.author}</span>
+            {!!comments &&
+              comments.map(comment => (
+                <div key={comment.id} className="comment">
+                  <span className="comment-author">{comment.author}</span>
 
-                <span className="comment-publish-date">
-                  {formatRelative(new Date(comment.published_at), new Date())}
-                </span>
+                  <span className="comment-publish-date">
+                    {formatRelative(new Date(comment.published_at), new Date())}
+                  </span>
 
-                <span className="comment-content">{comment.comment}</span>
-              </div>
-            ))}
+                  <span className="comment-content">{comment.comment}</span>
+                </div>
+              ))}
+
+            {!!comments && !comments.length && <span>There are no comments</span>}
           </>
         )}
       </article>
